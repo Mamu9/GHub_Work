@@ -1,7 +1,5 @@
 
-
 const hre = require("hardhat");
-//const hrew = require("@nomiclabs/hardhat-waffle");
 
 // Returns the Eth balance of a given address. 
 async function getBalance(address) {
@@ -46,26 +44,27 @@ const addresses = [owner.address, tipper.address, buyMeFlowers.address];
 console.log("--------start-------");
 await printBalances(addresses);
 
-// Check balances before the flower/s purchase
+// Buy the owner flower/s 
 const tip = {value: hre.ethers.utils.parseEther("1")};
 await buyMeFlowers.connect(tipper).buyFlower("Caroline", "You are the best!", tip);
 await buyMeFlowers.connect(tipper2).buyFlower("Angela", "Great!", tip);
 await buyMeFlowers.connect(tipper3).buyFlower("Billie", "Love you !", tip);
 
-// Buy the owner flower/s
+// Check balances before the flower/s purchase
 console.log("--------bought flowers-------");
 await printBalances(addresses);
 
-// Check the balances after the flower/s purchase
-
 // withdraw funds
+await buyMeFlowers.connect(owner).withdrawTips();
 
 // Check balances after withdraw
+console.log("------withdrawtips------");
+await printBalances(addresses);
 
 // Read all the memos left for the owner
-
-
-
+console.log("----memos-----");
+const memos = await buyMeFlowers.getMemos();
+printMemos(memos);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
