@@ -1,13 +1,11 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//import {MockProvider} from '@ethereum-waffle/provider';
+
 
 const hre = require("hardhat");
+//const hrew = require("@nomiclabs/hardhat-waffle");
 
 // Returns the Eth balance of a given address. 
 async function getBalance(address) {
-  const balanceBigInt = await hre.waffle.process
-  .getBalance(address);
+  const balanceBigInt = await hre.waffle.provider.getBalance(address);
   console.log("--------post get balance-------");
   return hre.ethers.utils.formatEther(balanceBigInt);
 }
